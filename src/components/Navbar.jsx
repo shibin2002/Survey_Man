@@ -5,7 +5,8 @@ import { scrollToId } from "../hooks/useLenis"
 import Logo from "./Logo"
 
 function getScrollY() {
-  return window.__lenis?.scroll ?? window.scrollY ?? 0
+  const lenisY = window.__lenis?.actualScroll ?? window.__lenis?.scroll ?? window.__lenis?.targetScroll ?? 0
+  return Math.max(window.scrollY ?? 0, lenisY ?? 0)
 }
 
 export default function Navbar({ hidden = false }) {
@@ -16,11 +17,31 @@ export default function Navbar({ hidden = false }) {
     const onScroll = () => setCompact(getScrollY() > 24)
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
-    const lenis = window.__lenis
-    lenis?.on("scroll", onScroll)
+
+    // Lenis may mount after Navbar — attach when available
+    let off
+    let tries = 0
+    const tryAttach = () => {
+      const lenis = window.__lenis
+      if (lenis) {
+        lenis.on("scroll", onScroll)
+        off = () => lenis.off("scroll", onScroll)
+        return
+      }
+      if (tries < 30) {
+        tries += 1
+        setTimeout(tryAttach, 100)
+      }
+    }
+    tryAttach()
+
+    // Extra poll for mobile bounce where scroll events can be throttled
+    const id = setInterval(onScroll, 150)
+
     return () => {
       window.removeEventListener("scroll", onScroll)
-      lenis?.off("scroll", onScroll)
+      off?.()
+      clearInterval(id)
     }
   }, [])
 
@@ -61,7 +82,7 @@ export default function Navbar({ hidden = false }) {
               className="flex shrink-0 items-center"
               aria-label="Survey Man home"
             >
-              <Logo className={`w-auto max-w-[62vw] object-contain transition-all duration-300 md:max-w-none ${compact ? "h-10 max-[429px]:h-12 md:h-14" : "h-14 max-[429px]:h-[68px] md:h-20 brightness-0 invert"}`} />
+              <Logo className={`w-auto max-w-[62vw] object-contain transition-all duration-300 md:max-w-none ${compact ? "h-10 max-[425px]:h-12 md:h-14" : "h-14 max-[425px]:h-[68px] md:h-20 brightness-0 invert"}`} />
             </button>
 
             <nav className="hidden items-center gap-6 lg:flex">

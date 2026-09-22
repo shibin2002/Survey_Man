@@ -67,12 +67,13 @@ textarea:focus {
   border-color: rgba(47, 91, 216, 0.45);
 }
 
-@media (max-width: 379px) {
+@media (max-width: 375px) {
   .hero-img {
-    object-position: 25% center !important;
+    object-position: 32% center !important;
   }
 }
-@media (min-width: 376px) and (max-width: 430px) {
+@media (min-width: 376px) and (max-width: 425px) {
   .hero-img {
-object-position: 25% center !important  }
+    object-position: right center !important;
+  }
 }
