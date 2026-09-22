@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #e8e9e8;
+  --color-bg-alt: #f3f3f1;
+  --color-ink: #1f211f;
+  --color-mute: #5f6562;
+  --color-accent: #2f5bd8;
+  --color-cyan: #3d6b66;
+  --color-line: rgba(31, 33, 31, 0.12);
+  --color-on-accent: #f5f5f0;
+  --font-display: "Syne", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: #e8e9e8;
+  color: #1f211f;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #2f5bd8;
+  color: #f5f5f0;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+.grid-overlay {
+  background-image:
+    linear-gradient(rgba(31, 33, 31, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31, 33, 31, 0.06) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+input,
+select,
+textarea {
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(47, 91, 216, 0.45);
+}
+
+@media (max-width: 425px) {
+  .hero-img {
+    object-position: 26% center !important;
+  }
+}
+@media (max-width: 375px) {
+  .hero-img {
+    object-position: 32% center !important;
+  }
+}
